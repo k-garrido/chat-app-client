@@ -1,16 +1,15 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Button } from "@material-ui/core";
-import Login from './views/Login'
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+import Login from './views/SignIn'
+import SingInOut from "./views/SingInOut";
 
 function App() {
   return (
     <Router>
       <div>
-        <Button>prueba</Button>
         <Switch>
           <Route path = "/login" >
-            <Login />
+            <SingInOut />
           </Route>
           <Route exact path = "/">
             Pagina de chat
