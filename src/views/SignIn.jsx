@@ -17,7 +17,6 @@ const useStyle = makeStyles({
     padding: 10,
     height: "70vh",
     width: "26vw",
-    margin: "20px auto",
   },
   iconStyle: {
     backgroundColor: "#009688",
