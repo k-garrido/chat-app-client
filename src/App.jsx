@@ -11,7 +11,7 @@ function App() {
             <SingInOut />
           </Route>
           <Route path = "/">
-            Pagina de chat
+            Pagina principal
           </Route>
         </Switch>
       </div>
