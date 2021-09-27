@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
-import Login from './views/SignIn'
 import SingInOut from "./views/SingInOut";
 
 function App() {
@@ -11,7 +10,7 @@ function App() {
           <Route path = "/login" >
             <SingInOut />
           </Route>
-          <Route exact path = "/">
+          <Route path = "/">
             Pagina de chat
           </Route>
         </Switch>
