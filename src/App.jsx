@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
-import SingInOut from "./views/SingInOut";
+import SingInOut from "./views/SingInUp";
 
 function App() {
   return (

@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Tabs, Tab, Typography, Box } from "@material-ui/core";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
+import SignIn from "../components/SignIn";
+import SignUp from "../components/SignUp";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -17,7 +17,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Box>{children}</Box>
         </Box>
       )}
     </div>

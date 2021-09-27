@@ -39,15 +39,16 @@ const SingIn = () => {
         </Grid>
         <Grid item>
         <TextField
-            id="outlined-basic"
+            id="nameInput"
             label="Nombre"
             variant="outlined"
             margin="normal"
             fullWidth
             required
+            autoFocus
           />
           <TextField
-            id="outlined-basic"
+            id="emailInput"
             label="Email"
             variant="outlined"
             margin="normal"
@@ -55,7 +56,7 @@ const SingIn = () => {
             required
           />
           <TextField
-            id="outlined-basic"
+            id="passwordInput"
             label="Contraseña"
             variant="outlined"
             margin="normal"
