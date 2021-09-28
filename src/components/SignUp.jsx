@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Grid,
@@ -23,8 +23,15 @@ const useStyle = makeStyles({
   },
 });
 
-const SingIn = () => {
+const SingUp = () => {
+  const [body, setBody] = useState({ name: "", email: "", password: "" });
   const classes = useStyle();
+  const handleChange = (e) => {
+    setBody({
+      ...body,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
     <Grid container>
@@ -37,23 +44,29 @@ const SingIn = () => {
             Registro
           </Typography>
         </Grid>
-        <Grid item>
-        <TextField
+        <form>
+          <TextField
             id="nameInput"
             label="Nombre"
             variant="outlined"
             margin="normal"
+            name="name"
             fullWidth
             required
             autoFocus
+            value={body.name}
+            onChange={handleChange}
           />
           <TextField
             id="emailInput"
             label="Email"
             variant="outlined"
             margin="normal"
+            name="email"
             fullWidth
             required
+            value={body.email}
+            onChange={handleChange}
           />
           <TextField
             id="passwordInput"
@@ -61,16 +74,19 @@ const SingIn = () => {
             variant="outlined"
             margin="normal"
             type="password"
+            name="password"
             fullWidth
             required
+            value={body.password}
+            onChange={handleChange}
           />
           <Button color="primary" variant="contained" fullWidth>
             Unirse
           </Button>
-        </Grid>
+        </form>
       </Paper>
     </Grid>
   );
 };
 
-export default SingIn;
+export default SingUp;
