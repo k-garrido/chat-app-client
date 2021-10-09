@@ -37,7 +37,7 @@ const SingUp = () => {
   const creatingUser = async (e) => {
     try {
       const response = await createUser(body);
-      if (response.status == 200) {
+      if (response.status === 200) {
         setStatus(true);
       }
       setBody({ name: "", email: "", password: "" })

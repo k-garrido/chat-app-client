@@ -8,11 +8,11 @@ function App() {
     <Router>
       <div>
         <Switch>
-          <Route path = "/login" >
-            <SingInOut />
-          </Route>
-          <Route path = "/">
+          <Route path = "/chat/:room_id/:room_name">
             <MainChat />
+          </Route>
+          <Route path = "/" >
+            <SingInOut />
           </Route>
         </Switch>
       </div>
