@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Tabs, Tab, Typography, Box } from "@material-ui/core";
+import { Tabs, Tab, Box } from "@material-ui/core";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
 
