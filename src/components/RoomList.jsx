@@ -11,7 +11,7 @@ const RoomList = ({rooms}) => {
     <Fragment>
       {
         rooms.map(room => (
-          <Link key={room._id} to={ '/chat/' + room._id + '/' + room.name}>
+          <Link key={room.id} to={ '/chat/' + room.id + '/' + room.name}>
             <ListItem disablePadding>
               <ListItemButton>
                 <ListItemText primary={room.name} />

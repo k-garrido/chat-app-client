@@ -25,6 +25,7 @@ const rooms = [{
 
 const MainChat = () => {
   const [room, setRoom] = useState('');
+  const [allRooms, setAllRooms] = useState([])
   const [message, setMessage] = useState('');
   const [allMessages, setAllMessages] =  useState([]);
   const classes = useStyle();
@@ -40,10 +41,24 @@ const MainChat = () => {
   }, []);
 
   useEffect(() => {
-    socket.on('message', (message) =>{
+    socket.on('allRooms', rooms => {
+      setAllRooms(rooms)
+    })
+  }, [])
+
+  useEffect(() => {
+    socket.on('finalMessage', (message) =>{
       setAllMessages([...allMessages, message])
     })
   }, [allMessages])
+
+  useEffect(() => {
+    socket.on('createdRoom', (room) =>{
+      
+      setAllRooms([...allRooms, room])
+      console.log(room)
+    })
+  }, [allRooms])
 
   const creatingChatRoom = () => {
     socket.emit('createRoom', room);
@@ -52,7 +67,6 @@ const MainChat = () => {
   }
 
   const getMessage = () => {
-    console.log(message)
     if (message) {
       socket.emit('sendMessage', message, room_id)
     }
@@ -64,7 +78,7 @@ const MainChat = () => {
         <Grid item container md={3}>
           <Grid container className={classes.chatList} direction="column"> 
             <List>
-              <RoomList rooms = {rooms} />
+              <RoomList rooms = {allRooms} />
             </List >
             <Grid item container direction="row" justifyContent="space-between" alignItems="flex-end" >
               <Grid item md={9}>
