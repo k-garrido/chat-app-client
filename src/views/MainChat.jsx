@@ -26,6 +26,7 @@ const rooms = [{
 const MainChat = () => {
   const [room, setRoom] = useState('');
   const [message, setMessage] = useState('');
+  const [allMessages, setAllMessages] =  useState([]);
   const classes = useStyle();
   const {room_id, room_name} = useParams();
 
@@ -37,6 +38,12 @@ const MainChat = () => {
       },
     });
   }, []);
+
+  useEffect(() => {
+    socket.on('message', (message) =>{
+      setAllMessages([...allMessages, message])
+    })
+  }, [allMessages])
 
   const creatingChatRoom = () => {
     socket.emit('createRoom', room);
@@ -79,6 +86,7 @@ const MainChat = () => {
         <Grid item container md={9} direction="row">
           <Grid item md={12}>
             <Box border={2} className={classes.messages}>
+              <pre>{JSON.stringify(allMessages, null, '\t')}</pre>
               <Chat />
             </Box>
           </Grid>
