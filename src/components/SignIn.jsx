@@ -37,7 +37,7 @@ const verifyUser = (e) => {
     postRequest(body)
       .then((res) => {
         localStorage.setItem('token', res.data.token);
-        window.location = "/chat";
+        window.location = "/chat/1/general";
       })
       .catch((err) => {
         console.error("email o contraseña incorrectos");

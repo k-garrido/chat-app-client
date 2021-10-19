@@ -26,7 +26,6 @@ const useStyle = makeStyles({
 const SingUp = () => {
   const [body, setBody] = useState({ name: "", email: "", password: "" });
   const [status, setStatus] = useState(null);
-  console.log(status);
   const classes = useStyle();
   const handleChange = (e) => {
     setBody({

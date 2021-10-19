@@ -1,17 +1,24 @@
 import React, { Fragment } from 'react';
 import { useParams } from 'react-router';
+import {
+  Grid,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 
-const Chat = () => {
+const Chat = ({data}) => {
   const {room_id, room_name} = useParams();
-
-  
+  console.log(data)
   return (
     <Fragment>
-      <div>
-        {room_id}
-      </div>
-      <div>{room_name}</div>
-    </Fragment>
+    {
+      data.map(message => (
+        <Grid item key= {message.message_id}>
+          <Typography>{message.name +': ' + message.text}</Typography>
+        </Grid>  
+      ))
+    }
+  </Fragment>
   )
 }
 
