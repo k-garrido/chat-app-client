@@ -1,9 +1,12 @@
-import { Grid, Box, TextField, Button, makeStyles, List } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
+import { Grid, Box, TextField, Button, makeStyles, List, Typography } from "@material-ui/core";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router";
+import { UserContext } from '../UserContext';
 import io from 'socket.io-client';
 import RoomList from "../components/RoomList";
 import Chat from "../components/Chat";
+import { getMessagesByID } from '../services/messages';
+
 const ENDPOINT = 'https://chat-app-kgarrido.herokuapp.com/';
 let socket;
 const useStyle = makeStyles({
@@ -14,23 +17,19 @@ const useStyle = makeStyles({
     height: "87vh",
   },
 });
-const rooms = [{
-  name: 'room1',
-  _id: '1'
-},
-{
-  name: 'room2',
-  _id: '2'
-}]
 
 const MainChat = () => {
+  const { user, setUser } = useContext(UserContext);
   const [room, setRoom] = useState('');
-  const [allRooms, setAllRooms] = useState([])
+  const [allRooms, setAllRooms] = useState([]);
   const [message, setMessage] = useState('');
   const [allMessages, setAllMessages] =  useState([]);
+  const [oldMessages, setOldMessages] = useState([]);
   const classes = useStyle();
   const {room_id, room_name} = useParams();
+  console.log(allMessages)
 
+  // Coneccion de socket con nuestro back-end, configuracion de cors.
   useEffect(() => {
     socket = io(ENDPOINT, {
       withCredentials: true,
@@ -40,38 +39,66 @@ const MainChat = () => {
     });
   }, []);
 
+  const prevRoom = useRef(room_id);
+  
+  useEffect(() => {
+    prevRoom.current = room_id
+    console.log(prevRoom.current)
+    
+    // 3.1 Emitiendo evento para unir usuario a una sala.
+    socket.emit('join', room_id);
+    return () => {
+      console.log(prevRoom.current)
+      socket.emit('disconnectSocket', prevRoom.current);
+      prevRoom.current = room_id
+      setAllMessages([])
+  }
+  }, [room_id])
+
+
+  // 2.2 Se escucha el evento el cual nos envia todas las salas de chat ya creadas.
   useEffect(() => {
     socket.on('allRooms', rooms => {
       setAllRooms(rooms)
     })
   }, [])
 
-  useEffect(() => {
-    socket.on('finalMessage', (message) =>{
-      setAllMessages([...allMessages, message])
-    })
-  }, [allMessages])
-
+  //1.3 Se escucha el evento el cual envia a todos los sockets la sala que se ha creada y se agrega a la lista de todas las salas.
   useEffect(() => {
     socket.on('createdRoom', (room) =>{
-      
       setAllRooms([...allRooms, room])
-      console.log(room)
     })
   }, [allRooms])
 
+  // 4.3 Escuchando el evento  el cual entrega el mensaje creado a cierta sala. 
+  useEffect(() => {
+    socket.on('createdMessage', (message) =>{
+      setAllMessages([...allMessages, message])
+    })
+  }, [allMessages]);
+
+  //  Importando los mensajes antiguos desde postgres.
+  // useEffect(() => {
+  //   const getData = async () => {
+  //   const data = await getMessagesByID(1);
+  //   setOldMessages(data.data)
+  //   }
+  //   getData()
+  // }, [])
+
+  // 1.1 Funcion la cual captura los datos ingresados en el input text de las cracion de salas y crea el evento que se envia al servidor.
   const creatingChatRoom = () => {
     socket.emit('createRoom', room);
-    console.log(room)
     setRoom('')
-  }
+  };
 
+  // 4.1 Funcion la cual captura los datos ingresados en el input text del chat y crea el evento que se envia al servidor.
   const getMessage = () => {
     if (message) {
-      socket.emit('sendMessage', message, room_id)
+      socket.emit('sendMessage', message, room_id, user.name, user.id)
     }
     setMessage('')
-  }
+  };
 
   return (
       <Grid container direction="row" alignItems="stretch">
@@ -100,8 +127,8 @@ const MainChat = () => {
         <Grid item container md={9} direction="row">
           <Grid item md={12}>
             <Box border={2} className={classes.messages}>
-              <pre>{JSON.stringify(allMessages, null, '\t')}</pre>
-              <Chat />
+              <Typography variant="h2" color="initial">chat {room_name}</Typography>
+              <Chat data = {allMessages} />
             </Box>
           </Grid>
           <Grid item container md={12} direction="row" alignItems="center">
