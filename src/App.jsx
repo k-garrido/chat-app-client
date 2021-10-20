@@ -8,7 +8,11 @@ import jwt_decode from 'jwt-decode';
 
 function App() {
   const token = localStorage.getItem('token');
-  let tokenDecoded;
+  let tokenDecoded = {
+    name: "",
+    email: "",
+    uid: ""
+  };
   if (token) {
     tokenDecoded = jwt_decode(token);
   }
