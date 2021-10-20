@@ -48,6 +48,7 @@ const MainChat = () => {
   const classes = useStyle();
   const {room_id, room_name} = useParams();
   const theme = useTheme();
+  
 
   // Coneccion de socket con nuestro back-end, configuracion de cors.
   useEffect(() => {
