@@ -1,18 +1,22 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import SingInOut from "./views/SingInUp";
 import MainChat from "./views/MainChat";
 import { UserContext } from './UserContext';
 import jwt_decode from 'jwt-decode';
 
+
 function App() {
-  const token = localStorage.getItem('token')
-  const tokenDecoded = jwt_decode(token);
+  const token = localStorage.getItem('token');
+  let tokenDecoded;
+  if (token) {
+    tokenDecoded = jwt_decode(token);
+  }
   const [user, setUser] = useState({
     name: tokenDecoded.name,
     email: tokenDecoded.email,
     id: tokenDecoded.uid
-  })
+  });
   return (
     <Router>
       <div>

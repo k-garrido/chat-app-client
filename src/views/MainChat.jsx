@@ -1,21 +1,41 @@
 import { Grid, Box, TextField, Button, makeStyles, List, Typography } from "@material-ui/core";
+import ForumSharpIcon from '@material-ui/icons/ForumSharp';
+import { useTheme } from '@material-ui/styles';
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router";
 import { UserContext } from '../UserContext';
 import io from 'socket.io-client';
 import RoomList from "../components/RoomList";
 import Chat from "../components/Chat";
-import { getMessagesByID } from '../services/messages';
 
 const ENDPOINT = 'https://chat-app-kgarrido.herokuapp.com/';
 let socket;
 const useStyle = makeStyles({
   chatList: {
-    height: "96vh",
+    height: "74vh",
   },
   messages: {
     height: "87vh",
   },
+  icon: {
+    marginLeft: '30%'
+  },
+  leftSide: {
+    backgroundColor: '#cfd8dc',
+  },
+  ul: {
+    width: '100%'
+  },
+  createRoom: {
+    padding: '5%'
+  },
+  createMessage:{
+    padding: '0% 1% 0% 1%',
+  },
+  buttonMessage: {
+    display: 'flex',
+    justifyContent: 'center',
+  }
 });
 
 const MainChat = () => {
@@ -27,7 +47,7 @@ const MainChat = () => {
   const [oldMessages, setOldMessages] = useState([]);
   const classes = useStyle();
   const {room_id, room_name} = useParams();
-  console.log(allMessages)
+  const theme = useTheme();
 
   // Coneccion de socket con nuestro back-end, configuracion de cors.
   useEffect(() => {
@@ -102,37 +122,54 @@ const MainChat = () => {
 
   return (
       <Grid container direction="row" alignItems="stretch">
-        <Grid item container md={3}>
-          <Grid container className={classes.chatList} direction="column"> 
-            <List>
-              <RoomList rooms = {allRooms} />
-            </List >
-            <Grid item container direction="row" justifyContent="space-between" alignItems="flex-end" >
-              <Grid item md={9}>
-                <TextField
-                  label="Nombre de tu sala"
-                  name="roomName"
-                  fullWidth
-                  value={room}
-                  onChange={e => setRoom(e.target.value)}
-                />
-              </Grid>
-              <Grid item md={3}>  
-                <Button variant="contained" onClick={creatingChatRoom}>Crear</Button>
-              </Grid>
+        <Grid item container md={3} className={classes.leftSide}>
+          <Grid container direction="row" alignItems="center">
+            <Grid item md={2} alignItems="center" justifyContent="center">
+              <ForumSharpIcon color="primary" className={classes.icon}/>
+            </Grid>
+            <Grid item md={10}>
+              <Typography variant="h4" color="primary" gutterBottom>Listado de salas</Typography> 
             </Grid>
           </Grid>
-         
+          <Grid container className={classes.chatList} direction="column" alignItems="center" >
+            <List className= {classes.ul}>
+              <RoomList rooms = {allRooms} />
+            </List >
+          </Grid>
+          <Grid container>
+            <Grid item container direction="row" justifyContent="space-between" alignItems="flex-end" className= {classes.createRoom}>
+                <Grid item md={8}>
+                  <TextField
+                    label="Nombre de tu sala"
+                    name="roomName"
+                    fullWidth
+                    value={room}
+                    onChange={e => setRoom(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={3}>  
+                  <Button variant="contained" color= "primary" onClick={creatingChatRoom}>Crear</Button>
+                </Grid>
+              </Grid>
+            </Grid> 
         </Grid>
+
+
         <Grid item container md={9} direction="row">
           <Grid item md={12}>
-            <Box border={2} className={classes.messages}>
-              <Typography variant="h2" color="initial">chat {room_name}</Typography>
+            <Box border={1} className={classes.messages}>
+              <Box border={1} sx={{
+                borderRadius: 3,
+                p: 2,
+              }}>
+                <Typography variant="h5" > Sala {room_name}</Typography>
+              </Box>
               <Chat data = {allMessages} />
-            </Box>
+            </Box> 
+            
           </Grid>
-          <Grid item container md={12} direction="row" alignItems="center">
-            <Grid item md={11}>
+          <Grid item container md={12} direction="row" alignItems="center"  justifyContent="space-between" className = {classes.createMessage}>
+            <Grid item md={10}>
               <TextField
                 label="Aa"
                 name="chatText"
@@ -141,8 +178,8 @@ const MainChat = () => {
                 onChange={e => setMessage(e.target.value)}
               />
             </Grid>
-            <Grid item md={1}> 
-              <Button variant="contained" onClick={getMessage}>Enviar</Button>
+            <Grid item md={2} className= {classes.buttonMessage}> 
+              <Button variant="contained" color= "primary" onClick={getMessage}>Enviar</Button>
             </Grid> 
           </Grid>
         </Grid>
