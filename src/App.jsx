@@ -4,7 +4,24 @@ import SingInOut from "./views/SingInUp";
 import MainChat from "./views/MainChat";
 import { UserContext } from './UserContext';
 import jwt_decode from 'jwt-decode';
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import { createTheme } from "@material-ui/core/styles";
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#80cbc4'
+    }
+  },
+  typography: {
+    fontFamily: [
+      "Acme",
+    ].join(','),
+    h1: {
+      lineHeight: "0.7"
+    }
+  },
+});
 
 function App() {
   const token = localStorage.getItem('token');
@@ -22,6 +39,7 @@ function App() {
     id: tokenDecoded.uid
   });
   return (
+    <MuiThemeProvider theme={theme}>
     <Router>
       <div>
         <UserContext.Provider value={{ user, setUser }}>
@@ -36,6 +54,7 @@ function App() {
         </UserContext.Provider>
       </div>
     </Router>
+    </MuiThemeProvider>
   );
 }
 

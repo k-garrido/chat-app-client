@@ -1,12 +1,13 @@
-import { Grid, Box, TextField, Button, makeStyles, List, Typography } from "@material-ui/core";
-import ForumSharpIcon from '@material-ui/icons/ForumSharp';
-import { useTheme } from '@material-ui/styles';
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router";
 import { UserContext } from '../UserContext';
+import { Grid, Box, TextField, Button, makeStyles, List, Typography } from "@material-ui/core";
+import ForumSharpIcon from '@material-ui/icons/ForumSharp';
+import { useTheme, styled } from '@material-ui/styles';
 import io from 'socket.io-client';
 import RoomList from "../components/RoomList";
 import Chat from "../components/Chat";
+import NavBar from "../components/NavBar"
 
 const ENDPOINT = 'https://chat-app-kgarrido.herokuapp.com/';
 let socket;
@@ -21,7 +22,7 @@ const useStyle = makeStyles({
     marginLeft: '30%'
   },
   leftSide: {
-    backgroundColor: '#cfd8dc',
+    backgroundColor: '#212121',
   },
   ul: {
     width: '100%'
@@ -36,6 +37,20 @@ const useStyle = makeStyles({
     display: 'flex',
     justifyContent: 'center',
   }
+});
+
+const CssTextField = styled(TextField)({
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: '#80cbc4',
+    },
+    '&:hover fieldset': {
+      borderColor: '#80cbc4',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#80cbc4',
+    },
+  },
 });
 
 const MainChat = () => {
@@ -122,7 +137,9 @@ const MainChat = () => {
   };
 
   return (
+
       <Grid container direction="row" alignItems="stretch">
+      
         <Grid item container md={3} className={classes.leftSide}>
           <Grid container direction="row" alignItems="center">
             <Grid item md={2} alignItems="center" justifyContent="center">
@@ -140,11 +157,17 @@ const MainChat = () => {
           <Grid container>
             <Grid item container direction="row" justifyContent="space-between" alignItems="flex-end" className= {classes.createRoom}>
                 <Grid item md={8}>
-                  <TextField
+                  <CssTextField
                     label="Nombre de tu sala"
                     name="roomName"
                     fullWidth
+                    variant="outlined"
                     value={room}
+                    InputLabelProps={{
+                      style: {
+                        color: 'white'
+                      }}}
+                    color="primary"
                     onChange={e => setRoom(e.target.value)}
                   />
                 </Grid>

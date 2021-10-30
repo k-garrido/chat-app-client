@@ -6,9 +6,11 @@ import { makeStyles } from "@material-ui/core";
 const useStyle = makeStyles({
   ancla: {
     width: "100%",
+    textDecoration:"none"
   },
   span: {
     fontSize: "100%",
+    color: 'white'
   },
   icon: {
     marginLeft: '30%'
