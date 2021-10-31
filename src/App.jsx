@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import SingInOut from "./views/SingInUp";
 import MainChat from "./views/MainChat";
 import { UserContext } from './UserContext';
 import jwt_decode from 'jwt-decode';
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { createTheme } from "@material-ui/core/styles";
 
 const theme = createTheme({
@@ -18,6 +18,9 @@ const theme = createTheme({
       "Acme",
     ].join(','),
     h1: {
+      lineHeight: "0.7"
+    },
+    h6:{
       lineHeight: "0.7"
     }
   },
@@ -41,7 +44,7 @@ function App() {
   return (
     <MuiThemeProvider theme={theme}>
     <Router>
-      <div>
+      <Fragment>
         <UserContext.Provider value={{ user, setUser }}>
           <Switch>
             <Route path = "/chat/:room_id/:room_name">
@@ -52,7 +55,7 @@ function App() {
             </Route>
           </Switch>
         </UserContext.Provider>
-      </div>
+      </Fragment>
     </Router>
     </MuiThemeProvider>
   );
