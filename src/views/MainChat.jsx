@@ -183,6 +183,7 @@ const MainChat = () => {
                 name="roomName"
                 fullWidth
                 variant="outlined"
+                id = "room"
                 value={room}
                 InputLabelProps={{
                   style: {

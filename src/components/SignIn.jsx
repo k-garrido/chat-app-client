@@ -51,7 +51,7 @@ const verifyUser = (e) => {
             <LockOutlined />
           </Avatar>
           <Typography variant="h5" color="initial">
-            Inciar sesión
+            Iniciar sesión
           </Typography>
         </Grid>
         <form>
